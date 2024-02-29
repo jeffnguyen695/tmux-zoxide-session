@@ -199,6 +199,7 @@ handle_output() {
 			target="${target##*/}"
 		else
 			z_target=$(zoxide query "$target")
+			target="${z_target##*/}"
 			tmux new-session -ds "$target" -c "$z_target"
 		fi
 	fi
