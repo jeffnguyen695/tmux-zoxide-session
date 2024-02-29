@@ -2,10 +2,12 @@
 
 Tmux session manager with the power of zoxide.
 
+![TZS](./assets/tzs-ui.png)
+
 ## ✨ Features
 
-- 🔎 Fuzzy search existing sessions
-- 🔨 Preview, rename, kill sessions
+- 🔎 Fuzzy search existing sessions / windows
+- 🔨 Preview, rename, kill sessions / windows
 - ⭐ Create new session by finding directories with zoxide
 
 ## ⚡️ Requirements
@@ -18,56 +20,88 @@ Tmux session manager with the power of zoxide.
 
 ### Install with TPM
 
-Add this plugin to `.tmux.conf` and run `<prefix> Ctrl-I` for TPM to install.
+- Add this plugin to `.tmux.conf` and run `<prefix> Ctrl-I` for TPM to install.
 
-```bash
-set -g @plugin 'jeffnguyen695/tmux-zoxide-session'
-```
+  ```bash
+  set -g @plugin 'jeffnguyen695/tmux-zoxide-session'
+  ```
 
 ### Install manually
 
-## 🚀 Usage
+1. Clone the repository
 
-### Demo
+    ```bash
+    git clone https://github.com/jeffnguyen695/tmux-zoxide-session ~/clone/path
+    ```
+
+2. Add this line to the bottom of `.tmux.conf`
+
+    ```bash
+    run-shell ~/clone/path/zoxide-session.tmux
+    ```
+
+3. Reload tmux
+
+    ```bash
+    tmux source-file ~/.tmux.conf
+    ```
+
+## 🚀 Usage
 
 Inside tmux
 
 - `<prefix> S` to launch the popup session manager
+- `Ctrl-h` to show help
 - Start typing to fuzzy search sessions
-- `Enter` to switch to selected session
-- `Ctrl-k` to kill selected session
-- `Ctrl-r` to rename selected session
-- `Ctrl-u` / `Ctrl-d` to scroll preview up / down
 - `Ctrl-w` to switch to window view
-- `Ctrl-s` to switch back to session view
-- When no existing session found:
-  - `Enter` to create new session with best match directory from zoxide
-  - `Ctrl-Enter` to create new session without zoxide
-  - `Ctrl-f` to find directories with zoxide, hit `Enter` on selected item will create a new session with that directory.
-- `Escape` to quit
+- `Enter` to go to selected session / window
+- `Ctrl-x` to kill selected session / window
+- `Ctrl-r` to rename selected session / window
+- When no existing session is found:
+  - `Enter` to create a new session with best match directory from zoxide
+  - `Ctrl-e` to create a new session with the query as its name
+- `Ctrl-f` to find directories with zoxide, hitting `Enter` will create a new session with that directory.
+- `Escape` to go back
+- `Ctrl-p` / `Ctrl-n` to select up / down
+- `Ctrl-u` / `Ctrl-d` to scroll preview up / down
 
 ## ⚙️ Configuration
 
 ```bash
-# UI
-set -g @zoxide-session-preview-location 'top'
-set -g @zoxide-session-preview-ratio '75%'
-
-set -g @zoxide-session-window-height '75%'
-set -g @zoxide-session-window-width '75%'
-
 # Key bindings
-set -g @zoxide-session-key-launch 'S'
 
-set -g @zoxide-session-key-enter 'enter'
-set -g @zoxide-session-key-kill 'C-k'
-set -g @zoxide-session-key-rename 'C-r'
-set -g @zoxide-session-key-up 'C-u'
-set -g @zoxide-session-key-down 'C-d'
-set -g @zoxide-session-key-find 'C-f'
-set -g @zoxide-session-key-window 'C-w'
-set -g @zoxide-session-key-sess 'C-s'
-set -g @zoxide-session-key-quit 'esc'
+set -g @tzs-key-accept 'enter'
+set -g @tzs-key-new 'ctrl-e'
+set -g @tzs-key-kill 'ctrl-x'
+set -g @tzs-key-rename 'ctrl-r'
+set -g @tzs-key-find 'ctrl-f'
+set -g @tzs-key-window 'ctrl-w'
+set -g @tzs-key-select-up 'ctrl-p'
+set -g @tzs-key-select-down 'ctrl-n'
+set -g @tzs-key-preview-up 'ctrl-u'
+set -g @tzs-key-preview-down 'ctrl-d'
+set -g @tzs-key-help 'ctrl-h'
+set -g @tzs-key-quit 'esc'
+set -g @tzs-key-launch 'S'
+
+# UI
+set -g @tzs-preview-location 'top'
+set -g @tzs-preview-ratio '65%'
+set -g @tzs-window-height '75%'
+set -g @tzs-window-width '75%'
+
+set -g @tzs-key-accept-icon '󰿄'
+set -g @tzs-key-new-icon ''
+set -g @tzs-key-kill-icon '󱂧'
+set -g @tzs-key-rename-icon '󰑕'
+set -g @tzs-key-find-icon ''
+set -g @tzs-key-window-icon ''
+set -g @tzs-key-select-up-icon ''
+set -g @tzs-key-select-up-icon ''
+set -g @tzs-key-preview-up-icon ''
+set -g @tzs-key-preview-down-icon ''
+set -g @tzs-key-help-icon ''
+set -g @tzs-key-quit-icon ''
 ```
 
 ## Reference

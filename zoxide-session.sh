@@ -23,9 +23,9 @@ format() {
 
 # Get config options
 preview_location=$(get_opt "@tzs-preview-location" "top")
-preview_ratio=$(get_opt "@tzs-preview-ratio" "65%")
-window_height=$(get_opt "@tzs-window-height" "75%")
-window_width=$(get_opt "@tzs-window-width" "75%")
+preview_ratio=$(get_opt "@tzs-preview-ratio" "70%")
+window_height=$(get_opt "@tzs-window-height" "65%")
+window_width=$(get_opt "@tzs-window-width" "65%")
 
 key_accept_icon=$(get_opt "@tzs-key-accept-icon" "󰿄")
 key_new_icon=$(get_opt "@tzs-key-new-icon" "")
@@ -47,7 +47,7 @@ key_rename=$(get_opt "@tzs-key-rename" "ctrl-r")
 key_find=$(get_opt "@tzs-key-find" "ctrl-f")
 key_window=$(get_opt "@tzs-key-window" "ctrl-w")
 key_select_up=$(get_opt "@tzs-key-select-up" "ctrl-p")
-key_select_down=$(get_opt "@tzs-key-select-up" "ctrl-n")
+key_select_down=$(get_opt "@tzs-key-select-down" "ctrl-n")
 key_preview_up=$(get_opt "@tzs-key-preview-up" "ctrl-u")
 key_preview_down=$(get_opt "@tzs-key-preview-down" "ctrl-d")
 key_help=$(get_opt "@tzs-key-help" "ctrl-h")
@@ -165,11 +165,12 @@ launch() {
 	echo -e "${sessions// /}" | fzf-tmux \
 		-p "$window_width,$window_height" \
 		--preview-window="${preview_location},${preview_ratio},," \
+    --border bold \
 		--header="$header" \
 		--prompt="$prompt_sessions > " \
 		--preview="tmux capture-pane -ep -t {1}" \
 		--border-label " Current: $(tmux display-message -p '#S') " \
-		--bind 'focus:transform-preview-label:echo ╢ {1} ╟' \
+		--bind 'focus:transform-preview-label:echo [ {1} ]' \
 		--bind "$key_window:transform:$handle_window" \
 		--bind "$key_find:transform:$handle_find" \
 		--bind "$key_kill:transform:$handle_kill" \
