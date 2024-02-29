@@ -2,7 +2,7 @@
 
 Tmux session manager with the power of zoxide.
 
-![TZS](./assets/tzs-ui.png)
+![main-ui](./assets/tzs-ui.png)
 
 ## ✨ Features
 
@@ -47,6 +47,8 @@ Tmux session manager with the power of zoxide.
     ```
 
 ## 🚀 Usage
+
+![Demo](./assets/tzs-demo.gif)
 
 Inside tmux
 
