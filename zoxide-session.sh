@@ -56,8 +56,8 @@ key_quit=$(get_opt "@tzs-key-quit" "esc")
 prompt_sessions=$(get_opt "@tzs-prompt-sessions" "Sessions")
 prompt_windows=$(get_opt "@tzs-prompt-windows" "Windows")
 prompt_find=$(get_opt "@tzs-prompt-find" "Directories")
-prompt_kill_session=$(get_opt "@tzs-prompt-kill-session" "Kill session")
-prompt_kill_window=$(get_opt "@tzs-prompt-kill-window" "Kill window")
+prompt_kill_session=$(get_opt "@tzs-prompt-kill-session" "Kill sessions")
+prompt_kill_window=$(get_opt "@tzs-prompt-kill-window" "Kill windows")
 prompt_rename_session=$(get_opt "@tzs-prompt-rename-session" "Rename session")
 prompt_rename_window=$(get_opt "@tzs-prompt-rename-window" "Rename window")
 prompt_help=$(get_opt "@tzs-prompt-help" "Help")
@@ -101,9 +101,9 @@ elif [[ ! $FZF_PROMPT =~ '"$prompt_windows"' ]]; then
 fi'
 
 handle_kill='if [[ $FZF_PROMPT =~ '"$prompt_sessions"' ]]; then 
-  echo "clear-query+change-prompt('"$prompt_kill_session"' (y/n) > )+reload(echo {})+disable-search"
+  echo "clear-query+change-prompt('"$prompt_kill_session"' (y/n) > )+reload(echo {+1})+disable-search"
 elif [[ $FZF_PROMPT =~ '"$prompt_windows"' ]]; then
-  echo "clear-query+change-prompt('"$prompt_kill_window"' (y/n) > )+reload(echo {})+disable-search"
+  echo "clear-query+change-prompt('"$prompt_kill_window"' (y/n) > )+reload(echo {+1})+disable-search"
 fi'
 
 handle_rename='if [[ $FZF_PROMPT =~ '"$prompt_sessions"' ]]; then 
@@ -123,13 +123,13 @@ elif [[ $FZF_PROMPT =~ '"$prompt_find"' ]]; then
   echo "replace-query+print-query"
 elif [[ $FZF_PROMPT =~ "'"$prompt_kill_session"'" ]]; then
   if [[ $FZF_QUERY == "y" ]]; then
-    echo "execute-silent(tmux kill-session -t {1})+$load_sessions"
+    echo "execute-silent(for sess in \$(echo "{}"); do tmux kill-session -t \$sess; done)+$load_sessions"
   else
     echo "$load_sessions"
   fi
 elif [[ $FZF_PROMPT =~ "'"$prompt_kill_window"'" ]]; then
   if [[ $FZF_QUERY == "y" ]]; then
-    echo "execute-silent(tmux kill-window -t {1})+$load_windows"
+    echo "execute-silent(for win in \$(echo "{}"); do tmux kill-window -t \$win; done)+$load_windows"
   else
     echo "$load_windows"
   fi
@@ -165,7 +165,7 @@ launch() {
 	echo -e "${sessions// /}" | fzf-tmux \
 		-p "$window_width,$window_height" \
 		--preview-window="${preview_location},${preview_ratio},," \
-    --border bold \
+		--border bold \
 		--header="$header" \
 		--prompt="$prompt_sessions > " \
 		--preview="tmux capture-pane -ep -t {1}" \
@@ -185,6 +185,7 @@ launch() {
 		--bind "$key_select_down:down" \
 		--scrollbar '▌▐' \
 		--print-query \
+		--multi \
 		--exit-0
 }
 
